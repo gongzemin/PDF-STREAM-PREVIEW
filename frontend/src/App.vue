@@ -16,6 +16,8 @@ import { onMounted, onUnmounted } from 'vue'
 import { ref } from 'vue'
 import { renderAsync } from 'docx-preview'
 
+const baseUrl = import.meta.env.VITE_API_BASE || ''
+
 // 拼接 viewer.html 路径，根据你实际目录调整
 const pdfViewerUrl = ref('/pdf/web/viewer.html')
 const getPdf = async () => {
@@ -48,7 +50,8 @@ const getPdf = async () => {
 const getDocx = async () => {
   try {
     // 使用 fetch 获取 PDF 流
-    const response = await fetch(`/api/docx`, { method: 'GET' })
+
+    const response = await fetch(`${baseUrl}/docx`, { method: 'GET' })
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`)
