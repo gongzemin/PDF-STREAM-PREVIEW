@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PDF 预览</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+    <style>
+      #app {
+        padding: 20px;
+      }
+      #pdf-canvas {
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="loadPDF">加载 PDF</button>
+      <canvas id="pdf-canvas"></canvas>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

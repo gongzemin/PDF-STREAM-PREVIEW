@@ -1,0 +1,12 @@
+{
+  "name": "pdf-stream-preview",
+  "version": "1.0.0",
+  "description": "Node.js PDF stream with Vue and pdfjs-dist preview",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

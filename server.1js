@@ -1,0 +1,58 @@
+const path = require('path')
+const fs = require('fs')
+const { promisify } = require('util')
+const stat = promisify(fs.stat)
+const readFile = promisify(fs.readFile)
+
+// 假设文件存储在 server/files 目录下
+const filesDir = path.join(__dirname, 'files')
+
+app.get('/file', async (req, res) => {
+  try {
+    // 获取文件名参数，如 ?name=document.pdf 或 ?name=report.docx
+    const fileName = req.query.name
+
+    if (!fileName) {
+      return res.status(400).json({ error: '缺少文件名参数 name' })
+    }
+
+    // 拼接完整文件路径
+    const filePath = path.join(filesDir, fileName)
+
+    // 检查文件是否存在
+    await stat(filePath)
+
+    // 获取文件扩展名以确定内容类型
+    const ext = path.extname(fileName).toLowerCase()
+    let contentType
+
+    // 根据扩展名设置Content-Type
+    switch (ext) {
+      case '.pdf':
+        contentType = 'application/pdf'
+        break
+      case '.docx':
+        contentType =
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        break
+      default:
+        return res.status(400).json({ error: '不支持的文件类型' })
+    }
+
+    // 设置响应头
+    res.setHeader('Content-Type', contentType)
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`)
+    res.setHeader('Content-Length', (await stat(filePath)).size)
+
+    // 创建文件读取流并发送响应
+    const readStream = fs.createReadStream(filePath)
+    readStream.pipe(res)
+  } catch (error) {
+    console.error('文件获取错误:', error)
+    if (error.code === 'ENOENT') {
+      res.status(404).json({ error: '文件不存在' })
+    } else {
+      res.status(500).json({ error: '服务器错误' })
+    }
+  }
+})
