@@ -64,7 +64,7 @@ const getDocx = async () => {
 
     if (docxContainer) {
       // 渲染 DOCX 到指定容器
-      await renderAsync(arrayBuffer, docxContainer, null, {
+      await renderAsync(arrayBuffer, docxContainer, undefined, {
         className: 'docx-render', // 自定义样式类
         breakPages: true, // 启用分页
         ignoreWidth: false, // 保留页面宽度
