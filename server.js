@@ -3,8 +3,14 @@ const fs = require('fs')
 const path = require('path')
 const app = express()
 const port = 3000
+const cors = require('cors')
 
 app.use(express.static('public'))
+app.use(
+  cors({
+    origin: ['https://pdf-min.netlify.app', 'http://localhost:5173'],
+  })
+)
 
 // 提供 PDF 文件流
 app.get('/pdf', (req, res) => {

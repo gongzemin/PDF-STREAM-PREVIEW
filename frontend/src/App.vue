@@ -23,7 +23,7 @@ const pdfViewerUrl = ref('/pdf/web/viewer.html')
 const getPdf = async () => {
   try {
     // 使用 fetch 获取 PDF 流
-    const response = await fetch(`/api/pdf`, { method: 'GET' })
+    const response = await fetch(`${baseUrl}/pdf`, { method: 'GET' })
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`)
